@@ -85,10 +85,10 @@
                             "name": "val",
                             "description": "random number between",
                             "unit": "",
-                            "byte_start": 1,
+                            "byte_start": 0,
                             "byte_end": 1,
                             "size": 1,
-                            "type": "int",
+                            "type": "uint",
                             "multiplier": null,
                             "variable_type": "value",
                             "depends_on": null
