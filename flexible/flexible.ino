@@ -1,4 +1,5 @@
 #include <bluefruit.h>
+#include <Adafruit_AS7341.h>
 
 const char deviceName[] = "flexible-example 01";
 
@@ -37,6 +38,20 @@ uint8_t randomNumberDataBuf[randomNumberDataLen] = { 0x00 };
 uint8_t rnCursor = 0;
 uint32_t rnLastRecordedMS = 0;
 
+/* MULTI SPECTRA SENSOR: 1a230001-c2ed-4d11-ad1e-fc06d8a02d37 (OPTIONAL - Service per Data Stream)
+
+*/
+const uint8_t multSpecServiceUuid128[] =          { 0x37, 0x2d, 0xa0, 0xd8, 0x06, 0xfc, 0x1e, 0xad, 0x11, 0x4d, 0xed, 0xc2, 0x01, 0x00, 0x24, 0x1a };
+const uint8_t multSpecServiceDataChrUuid128[] =   { 0x37, 0x2d, 0xa0, 0xd8, 0x06, 0xfc, 0x1e, 0xad, 0x11, 0x4d, 0xed, 0xc2, 0x02, 0x00, 0x24, 0x1a };
+const uint8_t multSpecServiceConfigChrUuid128[] = { 0x37, 0x2d, 0xa0, 0xd8, 0x06, 0xfc, 0x1e, 0xad, 0x11, 0x4d, 0xed, 0xc2, 0x03, 0x00, 0x24, 0x1a };
+BLEService randomNumberService = BLEService(multSpecServiceUuid128);
+BLECharacteristic multSpecDataChr = BLECharacteristic(multSpecServiceDataChrUuid128);
+BLECharacteristic multSpecConfigChr = BLECharacteristic(multSpecServiceConfigChrUuid128);
+const uint8_t multSpecConfigDataLen = 3;
+uint8_t multSpecConfigData[randomNumberConfigDataLen] = { 0x00, 0x00, 0x20 };
+const uint8_t randomNumberDataLen = 240;
+uint8_t randomNumberDataBuf[randomNumberDataLen] = { 0x00 };
+
 bool isRandomNumberDataStreamEnabled()
 {
   return randomNumberConfigData[0] == 1;
@@ -53,7 +68,6 @@ uint16_t randomNumberDesiredFrequencyMS()
    ###### BLE SETUP ########
    #########################
 */
-
 void setupInfoService()
 {
   infoService.begin();
@@ -243,7 +257,7 @@ void setup() {
   startAdv();
 }
 
-void recordRandomNumber()
+void recordRandomNumber(uint8_t group)
 { 
   if (!isRandomNumberDataStreamEnabled()) {
     return;
@@ -251,7 +265,7 @@ void recordRandomNumber()
   
   uint32_t recordOffset;
 
-  if ( rnCursor > (randomNumberDataLen - 2))
+  if ( rnCursor > (randomNumberDataLen - 3))
   {
     if (randomNumberDataChr.notifyEnabled())
     {
@@ -282,6 +296,7 @@ void recordRandomNumber()
   uint8_t value = (uint8_t)random(255);
   rnLastRecordedMS = millis();
   randomNumberDataBuf[rnCursor++] = value;
+  randomNumberDataBuf[rnCursor++] = group;
   randomNumberDataBuf[rnCursor++] = (uint8_t)recordOffset;
   Serial.print("Recording random number -> value: ");
   Serial.print(value);
@@ -306,7 +321,11 @@ void loop() {
   uint32_t lastLoopMS = millis();
 
   while (isEpochSet && isConnected) {
-    recordRandomNumber();
+    recordRandomNumber(0);
+    delay(1);
+    recordRandomNumber(1);
+    delay(1);
+    recordRandomNumber(2);
     delay(randomNumberDesiredFrequencyMS());
   }
 }
