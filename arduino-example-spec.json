@@ -1,6 +1,6 @@
 {
     "id": "arduino-example-spec",
-    "schema_version": "0.3.4",
+    "schema_version": "0.3.5",
     "created_at": "2022-10-03T22:00:00.000Z",
     "updated_at": "2022-10-03T22:00:00.000Z",
     "tags": [
@@ -47,7 +47,8 @@
                             "byte_end": 1,
                             "size": 1,
                             "unit": null,
-                            "type": "uint",
+                            "data_type": "uint",
+                            "selection_type": "signle",
                             "default_value": "0",
                             "options": [
                                 {
@@ -69,7 +70,8 @@
                             "byte_start": 1,
                             "byte_end": 3,
                             "size": 2,
-                            "type": "uint",
+                            "data_type": "uint",
+                            "selection_type": "range",
                             "unit": "Hz",
                             "options": null,
                             "default_value": "10",
@@ -78,6 +80,50 @@
                                 "end": 500,
                                 "step": 20
                             }
+                        },
+                        {
+                            "name": "multiselect-example",
+                            "description": "a dummy parameter for multiselection",
+                            "byte_start": 3,
+                            "byte_end": 4,
+                            "size": 2,
+                            "data_type": "uint",
+                            "selection_type": "bit-encoded-multi",
+                            "unit": "Hz",
+                            "options": [
+                                {
+                                    "name": "option1",
+                                    "description": "option1",
+                                    "value": "1"
+                                },
+                                {
+                                    "name": "option2",
+                                    "description": "option2",
+                                    "value": "2"
+                                },
+                                {
+                                    "name": "option3",
+                                    "description": "option3",
+                                    "value": "4"
+                                },
+                                {
+                                    "name": "option4",
+                                    "description": "option3",
+                                    "value": "8"
+                                },
+                                {
+                                    "name": "option5",
+                                    "description": "option3",
+                                    "value": "16"
+                                },
+                                {
+                                    "name": "option6",
+                                    "description": "option3",
+                                    "value": "32"
+                                }
+                            ],
+                            "default_value": "10",
+                            "range": null
                         }
                     ],
                     "data_values": [

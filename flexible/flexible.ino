@@ -30,8 +30,8 @@ const uint8_t randomNumberServiceConfigChrUuid128[] = { 0x37, 0x2d, 0xa0, 0xd8, 
 BLEService randomNumberService = BLEService(randomNumberServiceUuid128);
 BLECharacteristic randomNumberDataChr = BLECharacteristic(randomNumberServiceDataChrUuid128);
 BLECharacteristic randomNumberConfigChr = BLECharacteristic(randomNumberServiceConfigChrUuid128);
-const uint8_t randomNumberConfigDataLen = 3;
-uint8_t randomNumberConfigData[randomNumberConfigDataLen] = { 0x00, 0x00, 0x20 };
+const uint8_t randomNumberConfigDataLen = 4;
+uint8_t randomNumberConfigData[randomNumberConfigDataLen] = { 0x00, 0x00, 0x20, 0x00 };
 const uint8_t randomNumberDataLen = 240;
 uint8_t randomNumberDataBuf[randomNumberDataLen] = { 0x00 };
 
@@ -41,16 +41,16 @@ uint32_t rnLastRecordedMS = 0;
 /* MULTI SPECTRA SENSOR: 1a230001-c2ed-4d11-ad1e-fc06d8a02d37 (OPTIONAL - Service per Data Stream)
 
 */
-const uint8_t multSpecServiceUuid128[] =          { 0x37, 0x2d, 0xa0, 0xd8, 0x06, 0xfc, 0x1e, 0xad, 0x11, 0x4d, 0xed, 0xc2, 0x01, 0x00, 0x24, 0x1a };
-const uint8_t multSpecServiceDataChrUuid128[] =   { 0x37, 0x2d, 0xa0, 0xd8, 0x06, 0xfc, 0x1e, 0xad, 0x11, 0x4d, 0xed, 0xc2, 0x02, 0x00, 0x24, 0x1a };
-const uint8_t multSpecServiceConfigChrUuid128[] = { 0x37, 0x2d, 0xa0, 0xd8, 0x06, 0xfc, 0x1e, 0xad, 0x11, 0x4d, 0xed, 0xc2, 0x03, 0x00, 0x24, 0x1a };
-BLEService randomNumberService = BLEService(multSpecServiceUuid128);
-BLECharacteristic multSpecDataChr = BLECharacteristic(multSpecServiceDataChrUuid128);
-BLECharacteristic multSpecConfigChr = BLECharacteristic(multSpecServiceConfigChrUuid128);
-const uint8_t multSpecConfigDataLen = 3;
-uint8_t multSpecConfigData[randomNumberConfigDataLen] = { 0x00, 0x00, 0x20 };
-const uint8_t randomNumberDataLen = 240;
-uint8_t randomNumberDataBuf[randomNumberDataLen] = { 0x00 };
+// const uint8_t multSpecServiceUuid128[] =          { 0x37, 0x2d, 0xa0, 0xd8, 0x06, 0xfc, 0x1e, 0xad, 0x11, 0x4d, 0xed, 0xc2, 0x01, 0x00, 0x24, 0x1a };
+// const uint8_t multSpecServiceDataChrUuid128[] =   { 0x37, 0x2d, 0xa0, 0xd8, 0x06, 0xfc, 0x1e, 0xad, 0x11, 0x4d, 0xed, 0xc2, 0x02, 0x00, 0x24, 0x1a };
+// const uint8_t multSpecServiceConfigChrUuid128[] = { 0x37, 0x2d, 0xa0, 0xd8, 0x06, 0xfc, 0x1e, 0xad, 0x11, 0x4d, 0xed, 0xc2, 0x03, 0x00, 0x24, 0x1a };
+// BLEService randomNumberService = BLEService(multSpecServiceUuid128);
+// BLECharacteristic multSpecDataChr = BLECharacteristic(multSpecServiceDataChrUuid128);
+// BLECharacteristic multSpecConfigChr = BLECharacteristic(multSpecServiceConfigChrUuid128);
+// const uint8_t multSpecConfigDataLen = 3;
+// uint8_t multSpecConfigData[randomNumberConfigDataLen] = { 0x00, 0x00, 0x20 };
+// const uint8_t randomNumberDataLen = 240;
+// uint8_t randomNumberDataBuf[randomNumberDataLen] = { 0x00 };
 
 bool isRandomNumberDataStreamEnabled()
 {
@@ -86,7 +86,7 @@ void setupInfoService()
   specVersionChr.setPermission(SECMODE_OPEN, SECMODE_NO_ACCESS);
   specVersionChr.setFixedLen(3);
   specVersionChr.begin();
-  uint8_t specVersion[3] = { 0x00, 0x03, 0x04 };
+  uint8_t specVersion[3] = { 0x00, 0x03, 0x05 };
   specVersionChr.write(specVersion, 3);
 
   specIdChr.setProperties(CHR_PROPS_READ);
@@ -327,5 +327,15 @@ void loop() {
     delay(1);
     recordRandomNumber(2);
     delay(randomNumberDesiredFrequencyMS());
+
+    printf(
+      "random number multiselect %d, %d, %d, %d, %d, %d\n",
+      (randomNumberConfigData[3] & 1) > 0,
+      (randomNumberConfigData[3] & 2) > 0,
+      (randomNumberConfigData[3] & 4) > 0,
+      (randomNumberConfigData[3] & 8) > 0,
+      (randomNumberConfigData[3] & 16) > 0,
+      (randomNumberConfigData[3] & 32) > 0
+    );
   }
 }
