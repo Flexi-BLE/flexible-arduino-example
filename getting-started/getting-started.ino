@@ -1,5 +1,4 @@
 #include <bluefruit.h>
-#include <Adafruit_AS7341.h>
 
 const char deviceName[] = "flexible-example 01";
 

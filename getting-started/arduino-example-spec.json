@@ -25,7 +25,7 @@
             "data_streams": [
                 {
                     "id": "0xb92c",
-                    "name": "random number",
+                    "name": "random_number",
                     "description": "Just a stream of random numbers",
                     "include_anchor_timestamp": true,
                     "offset_data_value": {
@@ -48,7 +48,7 @@
                             "size": 1,
                             "unit": null,
                             "data_type": "uint",
-                            "selection_type": "signle",
+                            "selection_type": "single",
                             "default_value": "0",
                             "options": [
                                 {

@@ -1,0 +1,474 @@
+{
+    "id": "arduino-example-spec",
+    "schema_version": "0.3.5",
+    "created_at": "2022-10-03T22:00:00.000Z",
+    "updated_at": "2022-10-03T22:00:00.000Z",
+    "tags": [
+        "development"
+    ],
+    "ble_registered_devices": [],
+    "devices": [
+        {
+            "name": "flexible-example",
+            "description": "An example device",
+            "tags": [
+                "research"
+            ],
+            "ble": {
+                "ble_registered_services": [],
+                "info_service_uuid": "1a220001-c2ed-4d11-ad1e-fc06d8a02d37",
+                "epoch_char_uuid": "1a220002-c2ed-4d11-ad1e-fc06d8a02d37",
+				"spec_version_char_uuid": "1a220003-c2ed-4d11-ad1e-fc06d8a02d37",
+				"spec_id_char_uuid": "1a220004-c2ed-4d11-ad1e-fc06d8a02d37"
+            },
+            "global_config_values": [],
+            "data_streams": [
+                {
+                    "id": "0xb92c",
+                    "name": "random_number",
+                    "description": "Just a stream of random numbers",
+                    "include_anchor_timestamp": true,
+                    "offset_data_value": {
+                        "name": "ms_offset",
+                        "description": "relative time since the previous reading",
+                        "unit": "ms",
+                        "byte_start": 2,
+                        "byte_end": 3,
+                        "size": 1,
+                        "type": "uint",
+                        "multiplier": null,
+                        "variable_type": "none"
+                    },
+                    "config_values": [
+                        {
+                            "name": "sensor_state",
+                            "description": "state of the accelerometer sensor",
+                            "byte_start": 0,
+                            "byte_end": 1,
+                            "size": 1,
+                            "unit": null,
+                            "data_type": "uint",
+                            "selection_type": "single",
+                            "default_value": "0",
+                            "options": [
+                                {
+                                    "name": "disabled",
+                                    "description": "the sensor will not stream data",
+                                    "value": "0"
+                                },
+                                {
+                                    "name": "streaming",
+                                    "description": "the sensor will stream data",
+                                    "value": "1"
+                                }
+                            ],
+                            "range": null
+                        },
+                        {
+                            "name": "desired_frequency",
+                            "description": "the desired frequency of the sensor",
+                            "byte_start": 1,
+                            "byte_end": 3,
+                            "size": 2,
+                            "data_type": "uint",
+                            "selection_type": "range",
+                            "unit": "Hz",
+                            "options": null,
+                            "default_value": "10",
+                            "range": {
+                                "start": 20,
+                                "end": 500,
+                                "step": 20
+                            }
+                        },
+                        {
+                            "name": "multiselect_example",
+                            "description": "a dummy parameter for multiselection",
+                            "byte_start": 3,
+                            "byte_end": 4,
+                            "size": 1,
+                            "data_type": "uint",
+                            "selection_type": "bit-encoded-multi",
+                            "unit": "Hz",
+                            "options": [
+                                {
+                                    "name": "option1",
+                                    "description": "option1",
+                                    "value": "1"
+                                },
+                                {
+                                    "name": "option2",
+                                    "description": "option2",
+                                    "value": "2"
+                                },
+                                {
+                                    "name": "option3",
+                                    "description": "option3",
+                                    "value": "4"
+                                },
+                                {
+                                    "name": "option4",
+                                    "description": "option3",
+                                    "value": "8"
+                                },
+                                {
+                                    "name": "option5",
+                                    "description": "option3",
+                                    "value": "16"
+                                },
+                                {
+                                    "name": "option6",
+                                    "description": "option3",
+                                    "value": "32"
+                                }
+                            ],
+                            "default_value": "10",
+                            "range": null
+                        }
+                    ],
+                    "data_values": [
+                        {
+                            "name": "val",
+                            "description": "random number between 0 and 254",
+                            "unit": "arb",
+                            "byte_start": 0,
+                            "byte_end": 1,
+                            "size": 1,
+                            "type": "uint",
+                            "multiplier": null,
+                            "variable_type": "value",
+                            "depends_on": [
+                                "_group"
+                            ]
+                        },
+                        {
+                            "name": "_group",
+                            "description": "a group to a value",
+                            "unit": "",
+                            "byte_start": 1,
+                            "byte_end": 2,
+                            "size": 1,
+                            "type": "uint",
+                            "multiplier": null,
+                            "variable_type": "tag",
+                            "depends_on": null,
+                            "value_options": [
+                                "1",
+                                "2",
+                                "3"
+                            ]
+                        }
+                    ],
+                    "ble": {
+                        "service_uuid": "1a230001-c2ed-4d11-ad1e-fc06d8a02d37",
+                        "data_char_uuid": "1a230002-c2ed-4d11-ad1e-fc06d8a02d37",
+                        "config_char_uuid": "1a230003-c2ed-4d11-ad1e-fc06d8a02d37"
+                    }
+                },
+                {
+                  "id": "0xb93c",
+                  "name": "proximity",
+                  "description": "VCNL 4040 Proximity Sensor",
+                  "include_anchor_timestamp": true,
+                  "offset_data_value": {
+                      "name": "ms_offset",
+                      "description": "relative time since the previous reading",
+                      "unit": "ms",
+                      "byte_start": 6,
+                      "byte_end": 7,
+                      "size": 1,
+                      "type": "uint",
+                      "multiplier": null,
+                      "variable_type": "none"
+                  },
+                  "config_values": [
+                      {
+                          "name": "sensor_state",
+                          "description": "state of the accelerometer sensor",
+                          "byte_start": 0,
+                          "byte_end": 1,
+                          "size": 1,
+                          "unit": null,
+                          "data_type": "uint",
+                          "selection_type": "single",
+                          "default_value": "0",
+                          "options": [
+                              {
+                                  "name": "disabled",
+                                  "description": "the sensor will not stream data",
+                                  "value": "0"
+                              },
+                              {
+                                  "name": "streaming",
+                                  "description": "the sensor will stream data",
+                                  "value": "1"
+                              }
+                          ],
+                          "range": null
+                      },
+                      {
+                          "name": "desired_frequency",
+                          "description": "the desired frequency of the sensor",
+                          "byte_start": 1,
+                          "byte_end": 3,
+                          "size": 2,
+                          "data_type": "uint",
+                          "selection_type": "range",
+                          "unit": "Hz",
+                          "options": null,
+                          "default_value": "10",
+                          "range": {
+                              "start": 20,
+                              "end": 500,
+                              "step": 20
+                          }
+                      },
+                      {
+                          "name": "led_current",
+                          "description": "",
+                          "byte_start": 3,
+                          "byte_end": 4,
+                          "size": 1,
+                          "data_type": "uint",
+                          "selection_type": "single",
+                          "unit": "mA",
+                          "options": [
+                              {
+                                  "name": "50mA",
+                                  "description": "",
+                                  "value": "0"
+                              },
+                              {
+                                  "name": "75mA",
+                                  "description": "",
+                                  "value": "1"
+                              },
+                              {
+                                  "name": "100mA",
+                                  "description": "option3",
+                                  "value": "2"
+                              },
+                              {
+                                  "name": "120mA",
+                                  "description": "",
+                                  "value": "3"
+                              },
+                              {
+                                  "name": "140mA",
+                                  "description": "",
+                                  "value": "4"
+                              },
+                              {
+                                  "name": "160mA",
+                                  "description": "",
+                                  "value": "5"
+                              },
+                              {
+                                "name": "180mA",
+                                "description": "",
+                                "value": "6"
+                              },
+                              {
+                                "name": "200mA",
+                                "description": "",
+                                "value": "7"
+                              }
+                          ],
+                          "default_value": "0",
+                          "range": null
+                      },
+                      {
+                        "name": "LED_duty_cycle",
+                        "description": "",
+                        "byte_start": 4,
+                        "byte_end": 5,
+                        "size": 1,
+                        "data_type": "uint",
+                        "selection_type": "single",
+                        "unit": "",
+                        "options": [
+                            {
+                                "name": "1/40",
+                                "description": "",
+                                "value": "0"
+                            },
+                            {
+                                "name": "1/80",
+                                "description": "",
+                                "value": "1"
+                            },
+                            {
+                                "name": "1/160",
+                                "description": "",
+                                "value": "3"
+                            },
+                            {
+                                "name": "1/320",
+                                "description": "",
+                                "value": "3"
+                            }
+                        ],
+                        "default_value": "0",
+                        "range": null
+                    },
+                    {
+                      "name": "ambient_integration_time",
+                      "description": "",
+                      "byte_start": 5,
+                      "byte_end": 6,
+                      "size": 1,
+                      "data_type": "uint",
+                      "selection_type": "single",
+                      "unit": "ms",
+                      "options": [
+                          {
+                              "name": "80ms",
+                              "description": "",
+                              "value": "0"
+                          },
+                          {
+                              "name": "160ms",
+                              "description": "",
+                              "value": "1"
+                          },
+                          {
+                              "name": "320ms",
+                              "description": "",
+                              "value": "3"
+                          },
+                          {
+                              "name": "640ms",
+                              "description": "",
+                              "value": "3"
+                          }
+                      ],
+                      "default_value": "0",
+                      "range": null
+                    },
+                    {
+                      "name": "proximity_integration_time",
+                      "description": "",
+                      "byte_start": 6,
+                      "byte_end": 7,
+                      "size": 1,
+                      "data_type": "uint",
+                      "selection_type": "single",
+                      "unit": "T",
+                      "options": [
+                          {
+                              "name": "1T",
+                              "description": "",
+                              "value": "0"
+                          },
+                          {
+                              "name": "1.5T",
+                              "description": "",
+                              "value": "1"
+                          },
+                          {
+                              "name": "2T",
+                              "description": "",
+                              "value": "2"
+                          },
+                          {
+                              "name": "2.5T",
+                              "description": "",
+                              "value": "3"
+                          },
+                          {
+                            "name": "3T",
+                            "description": "",
+                            "value": "4"
+                          },
+                          {
+                            "name": "3.5T",
+                            "description": "",
+                            "value": "5"
+                          },
+                          {
+                            "name": "4T",
+                            "description": "",
+                            "value": "6"
+                          },
+                          {
+                            "name": "8T",
+                            "description": "",
+                            "value": "7"
+                          }
+                      ],
+                      "default_value": "0",
+                      "range": null
+                    },
+                    {
+                      "name": "proximity_resolution",
+                      "description": "",
+                      "byte_start": 7,
+                      "byte_end": 8,
+                      "size": 1,
+                      "data_type": "uint",
+                      "selection_type": "single",
+                      "unit": "",
+                      "options": [
+                          {
+                              "name": "Low",
+                              "description": "",
+                              "value": "0"
+                          },
+                          {
+                              "name": "High",
+                              "description": "",
+                              "value": "1"
+                          }
+                      ],
+                      "default_value": "0",
+                      "range": null
+                    }
+                  ],
+                  "data_values": [
+                      {
+                          "name": "proximity",
+                          "description": "random number between",
+                          "unit": "units",
+                          "byte_start": 0,
+                          "byte_end": 2,
+                          "size": 2,
+                          "type": "uint",
+                          "multiplier": null,
+                          "variable_type": "value",
+                          "depends_on": null
+                      },
+                      {
+                        "name": "lux",
+                        "description": "ambient light",
+                        "unit": "lux",
+                        "byte_start": 2,
+                        "byte_end": 4,
+                        "size": 2,
+                        "type": "uint",
+                        "multiplier": null,
+                        "variable_type": "value",
+                        "depends_on": null
+                    },
+                    {
+                      "name": "white_light",
+                      "description": "raw white light",
+                      "unit": "units",
+                      "byte_start": 4,
+                      "byte_end": 6,
+                      "size": 2,
+                      "type": "uint",
+                      "multiplier": null,
+                      "variable_type": "value",
+                      "depends_on": null
+                    }
+                  ],
+                  "ble": {
+                      "service_uuid": "1a240001-c2ed-4d11-ad1e-fc06d8a02d37",
+                      "data_char_uuid": "1a240002-c2ed-4d11-ad1e-fc06d8a02d37",
+                      "config_char_uuid": "1a240003-c2ed-4d11-ad1e-fc06d8a02d37"
+                  }
+              }
+            ]
+        }
+    ]
+}
